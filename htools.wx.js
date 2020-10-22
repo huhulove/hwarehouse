@@ -1,11 +1,9 @@
 /*
- *@Author: huhu
- *@Date: 2019-07-23 13:41:52
+ *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
- *@Description: 本地存储
+ *@Date: 2020-10-22 10:03:10
+ *@Description: 本地存储数据 - 设置
 */
-
-// 设置本地存储数据
 export const hsetStorage = (key, value) => {
 	if (value == undefined || value == null) {
 		console.warn("value值不能为undefined或者null");
@@ -25,7 +23,12 @@ export const hsetStorage = (key, value) => {
 	}
 	wx.setStorageSync(key, _value)
 }
-// 读取本地存储数据
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:03:31
+ *@Description: 本地存储数据 - 读取
+*/
 export const hgetStorage = (key) => {
 	let _value = wx.getStorageSync(key);
 	try {
@@ -35,43 +38,53 @@ export const hgetStorage = (key) => {
 		return _value
 	}
 }
-// 移除本地存储数据
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:03:43
+ *@Description: 本地存储数据 - 移除指定字段
+*/
 export const hremoveStorage = (key) => {
 	wx.removeStorageSync(key)
 }
-// 移除本地所有存储数据
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:03:57
+ *@Description: 本地存储数据 - 移除所有字段
+*/
 export const hclearStorage = () => {
 	wx.clearStorage();
 }
-
 /*
- *@Author: huhu
- *@Date: 2019-07-23 14:02:17
+ *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
- *@Description: 底部导航栏角标
+ *@Date: 2020-10-22 10:06:48
+ *@Description: 底部导航栏 - 设置角标
 */
-// 设置角标
 export const hsetTabBarBadge = (index, content) => {
 	wx.setTabBarBadge({
         index: index,
         text: content
     })
 }
-// 移除角标
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:07:20
+ *@Description:  底部导航栏 - 移除角标
+*/
 export const hremoveTabBarBadge = (index) => {
     wx.removeTabBarBadge({
         index: index
     })
 }
-
 /*
- *@Author: huhu
- *@Date: 2019-07-23 14:09:37
+ *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
- *@Description: 导航
+ *@Date: 2020-10-22 10:35:57
+ *@Description: 导航 - 页面跳转
 */
-
-// 页面跳转
 export const hnavigateTo = (url, type) => {
     switch (type) {
         case "tab":
@@ -91,20 +104,23 @@ export const hnavigateTo = (url, type) => {
             break;
     }
 }
-// 页面回退
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:35:57
+ *@Description: 导航 - 页面回退
+*/
 export const hnavigateBack = (num) => {
     wx.navigateBack({
         delta: num
     })
 }
-
 /*
- *@Author: huhu
- *@Date: 2019-07-23 16:43:48
+ *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
- *@Description: loading
+ *@Date: 2020-10-22 10:36:58
+ *@Description: loading - 显示
 */
-// 显示loading
 export const hshowLoading = (title="加载中") => {
     return new Promise( (resolve, reject)=>{
         wx.showLoading({
@@ -120,18 +136,21 @@ export const hshowLoading = (title="加载中") => {
         })
     } )
 }
-// 隐藏loading
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:39:28
+ *@Description: loading - 隐藏
+*/
 export const hhideLoading = ()=>{
     wx.hideLoading();
 }
-
 /*
- *@Author: huhu
- *@Date: 2019-07-23 17:10:29
+ *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
- *@Description: toast
+ *@Date: 2020-10-22 10:40:10
+ *@Description: toast - 显示
 */
-// 显示 toast
 export const hshowToast = (content="操作成功", duration=1500, icon="none", image="") => {
     return new Promise( (resolve, reject)=>{
         wx.showToast({
@@ -150,7 +169,6 @@ export const hshowToast = (content="操作成功", duration=1500, icon="none", i
         })
     } )
 }
-
 /*
  *@Author: huhulove
  *@Date: 2019-07-29 14:23:03
@@ -203,7 +221,6 @@ export const hroundRect = (ctx, bgColor = "#fff", x, y, w, h, r) => {
    // 剪切
    // ctx.clip()
 }
-
 /* 
  * @Author: huhulove
  * @Date: 2019-10-21 14:05:53
@@ -268,15 +285,12 @@ export const hchooseAddress = ()=>{
         })
     } )
 }
-
 /*
- *@Author: huhulove
- *@Date: 2019-07-23 16:33:29
+ *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
- *@Description: 数据请求
+ *@Date: 2020-10-22 10:42:27
+ *@Description: 数据请求 - 基本函数
 */
-
-// 请求基本函数
 const request = (url, method, data, completeFn, headerData) => {
     return new Promise((resolve, reject) => {
         wx.request({
@@ -311,19 +325,39 @@ const request = (url, method, data, completeFn, headerData) => {
         })
     })
 }
-// post 请求
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:43:45
+ *@Description: 数据请求 - post 请求
+*/
 export const hrequestPost = (url, data, completeFn, headerData = {}) => {
     return request(url, "post", data, completeFn, headerData)
 }
-// get 请求
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:44:09
+ *@Description: 数据请求 - get 请求
+*/
 export const hrequestGet = (url, data, completeFn, headerData = {}) => {
     return request(url, "get", data, completeFn, headerData)
 }
-// form 请求
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:44:31
+ *@Description: 数据请求 - form 请求
+*/
 export const hrequestForm = (url, data, completeFn, headerData = { 'content-type': "application/x-www-form-urlencoded" }) => {
     return request(url, "post", data, completeFn, headerData)
 }
-// 上传文件
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:44:48
+ *@Description: 数据请求 - 上传文件
+*/
 export const huploadFile = (upload, tempFilePath, name = "file", completeFn, headerData = {}, formData = {}) => {
     // headerData = { "Content-type": "multipart/form-data" }
     return new Promise((resolve, reject) => {
@@ -345,7 +379,12 @@ export const huploadFile = (upload, tempFilePath, name = "file", completeFn, hea
         })
     })
 }
-// 聊天窗口选择文件
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:46:27
+ *@Description: 聊天窗口选择文件
+*/
 export const hchooseMessageFile = (count = 1, type = "file") => {
     return new Promise((resolve, reject) => {
         wx.chooseMessageFile({
@@ -360,7 +399,12 @@ export const hchooseMessageFile = (count = 1, type = "file") => {
         });
     });
 }
-// 选择图片
+/*
+ *@ClassAuthor: huhulove
+ *@Email: 2373838484@qq.com
+ *@Date: 2020-10-22 10:46:41
+ *@Description: 选择图片
+*/
 export const hchooseImg = (count = 1, sizType = ["compressed"], sourceType) => {
     return new Promise( (resolve, reject)=>{
         wx.chooseImage({
@@ -376,14 +420,12 @@ export const hchooseImg = (count = 1, sizType = ["compressed"], sourceType) => {
         })
     } )
 }
-
 /*
  *@Author: huhulove
  *@Date: 2019-07-24 09:56:07
  *@Email: 2373838484@qq.com
  *@Description: 授权信息
 */
-
 export const hauthorize = (name) => {
     return new Promise((resolve, reject) => {
         let authName = `scope.${name}`;
@@ -401,14 +443,12 @@ export const hauthorize = (name) => {
         })
     })
 }
-
 /*
  *@Author: huhulove
  *@Date: 2019-07-24 10:06:43
  *@Email: 2373838484@qq.com
  *@Description: 微信登录
 */
-
 export const hlogin = () => {
     return new Promise((resolve, reject) => {
         wx.login({
@@ -421,7 +461,6 @@ export const hlogin = () => {
         })
     })
 }
-
 /* 
  * @Author: huhulove
  * @Date: 2019-09-04 13:55:38
