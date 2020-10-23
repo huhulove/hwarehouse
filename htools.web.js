@@ -2,7 +2,7 @@
  * @Author: huhulove
  * @Date: 2019-07-30 10:12:50
  * @Email: 2373838484@qq.com
- * @Description: 操作网址参数 - 获取指定参数值
+ * @Description: 网址参数 - 获取指定参数值
 */
 export const hgetParams = (name) => {
 
@@ -16,7 +16,7 @@ export const hgetParams = (name) => {
  *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 11:58:04
- *@Description: 操作网址参数 - 获取网址中全部参数返回JSON对象
+ *@Description: 网址参数 - 获取网址中全部参数返回JSON对象
 */
 export const hgetAllParams = (url = window.location.href) => {
 
@@ -51,7 +51,7 @@ export const hgetAllParams = (url = window.location.href) => {
  *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 11:59:15
- *@Description: 操作网址参数 - 删除网址中的参数
+ *@Description: 网址参数 - 删除网址中的参数
 */
 export const hdeleteParams = (name, url = window.location.href) => {
 
@@ -394,6 +394,84 @@ export const hnumberToMoney = (num) => {
 
     return newchar;
 }
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 17:05:30
+ * @Description: 阿拉伯数字 - 随机数范围
+*/
+export const Random = (min, max) => {
+
+    if (arguments.length === 2) {
+
+        return Math.floor(min + Math.random() * ( (max+1) - min ))
+
+    }else{
+
+        return null;
+
+    }
+    
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 17:17:17
+ * @param    {[String]}         runType [运算符号]
+ * @Description: 阿拉伯数字 - 解决javascript浮点数四则运算( + - * / )运算BUG
+ * 备注：该方法只适应于 参数1 和 参数2小数点后 3位 之内(含3)的计算  不支持除法
+*/
+export const FloatRun = (num1, num2, runType) => {
+
+    var sq1, sq2, m;
+
+    try {
+
+        sq1 = num1.toString().split(".")[1].length;
+
+    } catch (e) {
+
+        sq1 = 0;
+
+    }
+
+    try {
+
+        sq2 = num2.toString().split(".")[1].length;
+
+    } catch (e) {
+
+        sq2 = 0;
+
+    }
+
+    m = Math.pow(10, Math.max(sq1, sq2));
+
+    switch( runType ){
+
+        case "+":
+
+            return (num1 * m + num2 * m) / m;
+
+            break;
+
+        case "-":
+
+            return (num1 * m - num2 * m) / m;;
+
+            break;
+
+        case "*":
+
+            return ( (num1 * m) * (num2*m) ) / m*m
+
+            break;
+
+    }
+
+}
+
+
 /* 
  * @Author: huhulove
  * @Date: 2019-07-30 10:59:31
@@ -519,6 +597,121 @@ export const hpasswordLevel = (str) => {
 
     return Lv;
 }
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:59:42
+ * @Description: 字符串 - 去除空格
+ * @param    {[Number]}         type [ 1-所有空格  2-前后空格  3-前空格 4-后空格 ]
+*/
+export const Trim = (str, type) => {
+
+    type = type || 1;
+
+    switch (type) {
+
+        case 1:
+
+            return str.replace(/\s+/g, "");
+
+        case 2:
+
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+
+        case 3:
+
+            return str.replace(/(^\s*)/g, "");
+
+        case 4:
+
+            return str.replace(/(\s*$)/g, "");
+
+        default:
+
+            return str;
+
+    }
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 17:01:14
+ * @Description: 字符串 - 大小写转换
+ * @param    {[Number]}         type [ 1:首字母大写  2：首页母小写  3：大小写转换  4：全部大写  5：全部小写 ]
+*/
+export const ChangeCase = (str, type) => {
+
+    type = type || 4;
+
+    switch (type) {
+
+        case 1:
+
+            return str.replace(/\b\w+\b/g, function (word) {
+
+                return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+
+            });
+
+        case 2:
+
+            return str.replace(/\b\w+\b/g, function (word) {
+
+                return word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase();
+
+            });
+
+        case 3:
+
+            return str.split('').map( function(word){
+
+                if (/[a-z]/.test(word)) {
+
+                    return word.toUpperCase();
+
+                }else{
+
+                    return word.toLowerCase()
+
+                }
+
+            }).join('')
+
+        case 4:
+
+            return str.toUpperCase();
+
+        case 5:
+
+            return str.toLowerCase();
+
+        default:
+
+            return str;
+
+    }
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 17:02:19
+ * @Description: 字符串 - 过滤html代码(把<>转换)
+*/
+export const FilterTag = (str) => {
+
+    str = str.replace(/&/ig, "&amp;");
+
+    str = str.replace(/</ig, "&lt;");
+
+    str = str.replace(/>/ig, "&gt;");
+
+    str = str.replace(" ", "&nbsp;");
+
+    return str;
+
+}
+
 /* 
  * @Author: huhulove
  * @Date: 2019-07-30 11:03:54
@@ -577,11 +770,12 @@ export const hremoveStorage = (key) => {
 export const hclearStorage = () => {
     localStorage.clearStorage();
 }
+//////////////////////////////////// 时间 ///////////////////////////////////////////
 /*
  * @Author: huhulove
  * @Date: 2019-09-09 11:20:45
  * @Email: 2373838484@qq.com
- * @Description: 日期 - 返回指定长度的月份集合
+ * @Description: 时间 - 返回指定长度的月份集合
  * @param  {time} 时间
  * @param  {len} 长度
  * @param  {direction} 方向：  1: 前几个月;  2: 后几个月;  3:前后几个月  默认 3
@@ -733,7 +927,7 @@ export const HgetMonths = (time, len, dir) => {
  * @ClassAuthor: huhulove
  * @Email: 2373838484@qq.com
  * @Date: 2020-10-22 14:15:46
- * @Description: 日期 - 获取某月有多少天
+ * @Description: 时间 - 获取某月有多少天
  * @param    time 				[ "2018-2" ]
  * @return   Number
  * @explame  GetDatesOfMonth( "2018-2" )  => 28
@@ -772,10 +966,10 @@ export const hgetDatesOfMonth = (time) => {
 
 };
 /*
- *@ClassAuthor: huhulove
- *@Email: 2373838484@qq.com
- *@Date: 2020-10-22 14:22:08
- *@Description: 日期 - 一年当中某一天是星期几
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-22 14:22:08
+ * @Description: 时间 - 一年当中某一天是星期几
 */
 export const honeDay = (y, m, d) => {
     var myDate = new Date();
@@ -800,6 +994,347 @@ export const honeDay = (y, m, d) => {
 }
 /*
  * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:10:39
+ * @Description: 时间 - 返回指定长度的天数集合
+ * @param  {time} 时间
+ * @param  {len} 长度
+ * @param  {direction} 方向： 1: 前几天;  2: 后几天;  3:前后几天  默认 3
+ * @return {Array} 数组
+ * @example date.GetDates('2018-1-29', 6) // -> ["2018-1-26", "2018-1-27", "2018-1-28", "2018-1-29", "2018-1-30", "2018-1-31", "2018-2-1"]
+ * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
+ * 
+*/
+export const GetDates = (time, len, diretion) => {
+
+    var tt = new Date(time);
+
+    var getDay = function(day) {
+
+        var t = new Date(time)
+
+        t.setDate(t.getDate() + day)
+
+        var m = t.getMonth()+1
+
+        return t.getFullYear()+'-'+m+'-'+t.getDate()
+
+    }
+
+    var arr = []
+
+    if (diretion === 1) {
+
+        for (var i = 1; i <= len; i++) {
+
+            arr.unshift(getDay(-i))
+
+        }
+
+    }else if(diretion === 2) {
+
+        for (var i = 1; i <= len; i++) {
+
+            arr.push(getDay(i))
+
+        }
+
+    }else {
+
+        for (var i = 1; i <= len; i++) {
+
+            arr.unshift(getDay(-i))
+
+        }
+
+        arr.push(tt.getFullYear()+'-'+(tt.getMonth()+1)+'-'+tt.getDate())
+
+        for (var i = 1; i <= len; i++) {
+
+            arr.push(getDay(i))
+
+        }
+
+    }
+
+    // return diretion === 1 ? arr.concat([tt.getFullYear()+'-'+(tt.getMonth()+1)+'-'+tt.getDate()]) : diretion === 2 ? [tt.getFullYear()+'-'+(tt.getMonth()+1)+'-'+tt.getDate()].concat(arr) : arr
+    return arr
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:18:52
+ * @Description: 时间 - 秒数转换为时分秒字符串
+ * @param  {s} 秒数
+ * @return {String} 字符串 
+ * @example formatHMS(3610) // -> 1h0m10s
+ *          formatHMS(3610, "h")  // -> 1h
+*/
+export const FormatHMS = (s, type) => {
+
+    var h = parseInt(s/3600);
+
+    var m = parseInt( ( s - h*3600 )/60 );
+
+    var s = s - h*3600 - m*60;
+
+    switch( type ){
+
+        case "h":
+
+            return h + "h";
+
+            break;
+
+        case "m":
+
+            return m + "m";
+
+            break;
+
+        case "s":
+
+            return s + "s";
+
+            break;
+
+        default :
+
+            return h + "h" + m + "m" + s + "s"
+
+    }
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:26:01
+ * @Description: 时间 - 获取某月有多少天
+ * @param    time 				[ "2018-2" ]
+ * @return   Number
+ * @explame getMonthOfDay( "2018-2" )  => 28
+ * 
+ * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
+*/
+export const GetDatesOfMonth = (time) => {
+
+    var date = new Date(time);
+
+    var year = date.getFullYear();
+
+    var mouth = date.getMonth() + 1;
+
+    var days;
+
+    //当月份为二月时，根据闰年还是非闰年判断天数
+    if (mouth == 2) {
+
+        days = ( year%4==0 && year%100!=0 ) || year%400==0 ? 29 : 28;
+
+    } else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
+
+        //月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+        days = 31
+
+    } else {
+
+        //其他月份，天数为：30.
+        days = 30
+
+    }
+
+    return days
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:30:29
+ * @Description: 时间 - 获取某年有多少天
+ * @param    time 					[ "2018" => ( String ) / 946684800000 => ( Number ) ]
+ * @return   Number
+ * @example  GetDatesOfYear( "2018" / 946684800000 ) => 365 / 366
+*/
+export const GetDatesOfYear = (time) => {
+
+    var firstDayYear = this.GetFirstDateOfYear(time);
+
+    var lastDayYear = this.GetLastDateOfYear(time);
+
+    var numSecond = (new Date(lastDayYear).getTime() - new Date(firstDayYear).getTime())/1000;
+
+    return Math.ceil(numSecond/(24*3600));
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:38:54
+ * @Description: 时间 - 获取某年的第一天
+ * @param    time 				[ "2018" => ( String ) / 1517903434628 => ( Number ) ]
+ * @return   String
+ * @example  GetFirstDateOfYear( "2018" / 946684800000 ) => "2018-01-01 00:00:00" / "2000-01-01 00:00:00";
+ */
+export const GetFirstDateOfYear = (time) => {
+
+    var year = new Date(time).getFullYear();
+
+    return year + "-01-01 00:00:00";
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:41:17
+ * @Description: 时间 - 获取某年最后一天
+ * @param    time 				[ "2018" => ( String ) / 1517903434628 => ( Number ) ]
+ * @return   String
+ * @example  GetLastDateOfYear( "2018" / 946684800000 ) => "2018-12-31 23:59:59" / "2000-12-31 23:59:59";
+ */
+export const GetLastDateOfYear = (time) => {
+
+    var year = new Date(time).getFullYear();
+
+    var dateString = year + "-12-01 00:00:00";
+
+    var endDay = this.GetDatesOfMonth(dateString);
+
+    return year + "-12-" + endDay + " 23:59:59";
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:36:58
+ * @Description: 时间 - 获取某个日期是当年中的第几天
+ * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
+ * @return   Number
+ * @example  GetDateIndexOfYear( "2018-2-10" / 1518192000000 )   => 41 / 41  
+ * 
+ * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
+*/
+export const GetDateIndexOfYear = (time) => {
+
+    var firstDayYear = GetFirstDateOfYear(time);
+
+    var numSecond = (new Date(time).getTime() - new Date(firstDayYear).getTime())/1000;
+    
+    return Math.ceil(numSecond/(24*3600)) + 1;
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:42:47
+ * @Description: 时间 - 获取某个日期在这一年的第几周
+ * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
+ * @return   Number             
+ * @example  GetDayOfYearWeek( "2018-2-10" / 1518192000000 )   => 6 / 6 
+ * 
+ * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
+ * 
+ */
+export const GetWeekIndexOfYear = (time) => {
+
+    var numdays = this.GetDateIndexOfYear(time);
+
+    var y = new Date(time).getFullYear();
+
+    var firstDateDay = new Date(y, 0, 1).getDay();
+    
+    if( firstDateDay != 1 ){
+
+        return Math.ceil( ( numdays + ( firstDateDay == 0 ? 7 : firstDateDay - 1 ) ) / 7 );
+
+    }else{
+
+        return Math.ceil(numdays / 7);
+
+    }	    
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:44:21
+ * @Description: 时间 - 根据一年当中第几天返回日期
+ * @param {*} arr 
+ * @param {*} type 
+ */
+export const GetYMDOfDates = (year, dates) => {
+
+    var firstDate_mitime = new Date(year+"-1-1").getTime();
+
+    var time = (dates+1)*24*60*60*1000;
+
+    var allTime = firstDate_mitime + time;
+
+    var myDate = new Date(allTime)
+
+    return myDate.getFullYear() + "-" + ( myDate.getMonth() + 1 ) + "-" + myDate.getDate();
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:51:40
+ * @Description: 时间 - 根据一年当中第几周返回当周的开始日期和结束日期
+*/
+export const GetStartDateAndEndDateOfWeek = (year, week) => {
+		
+    // 获取当年1月1号是星期几
+    var firstDateDay = new Date(year, 0, 1).getDay();
+    
+    // 如果year年1月1号刚好是星期天
+    if( firstDateDay == 0 ){	
+
+        var allDate = (week-1) * 7 - 1;
+
+        return {
+
+            firstDate : this.GetYMDOfDates( year, allDate ),
+
+            endDate : this.GetDates(this.GetYMDOfDates( year, allDate ) , 6 , 2)[5]
+
+        };
+    }
+    // 如果year年1月1号刚好不是星期天
+    if( firstDateDay != 0 ){
+
+        if( week == 1 ){
+
+            return {
+
+                firstDate : year + "-" + "1-1",
+
+                endDate : this.GetDates(year + "-" + "1-1", weekLastDay - firstDateDay, 2)[weekLastDay - firstDateDay-1]
+
+            };
+
+        }else{
+
+            var allDate = (week-1) * 7;
+
+            var firstDate = this.GetDates(year + "-" + "1-1", firstDateDay, 1)[0];
+            
+            return {
+
+                firstDate : this.GetDates( firstDate, allDate, 2 )[allDate-1],
+
+                endDate : this.GetDates(this.GetDates( firstDate, allDate, 2 )[allDate-1] , 6 , 2)[5]
+                
+            };
+        }
+
+    }
+
+}
+
+// ---------------------- 数组 -----------------------------
+
+/*
+ * @Author: huhulove
  * @Email: 2373838484@qq.com
  * @Date: 2020-10-22 14:22:23
  * @Description: 数组 - 数组进行简单排序
@@ -834,9 +1369,162 @@ export const hsort = (arr, type) => {
     })
 
 }
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:40:25
+ * @Description: 数组 - 数组去重
+ * @param    {[Array]}          arr  []
+ * @param    {[Number]}         type [ 1 => 严格去重 "2" / 2 数据类型不一样 不在去重范围内; !1 => 非严格去重 "2" / 2 数据类型不一样 在去重范围内; ]
+ * @example  Unique([1,2,2,3,4,6,"2"], 1)  => [1, 2, 3, 4, 6, "2"]
+ *           Unique([1,2,2,3,4,6,"2"])  => [1, 2, 3, 4, 6]
+*/
+export const Unique = (arr, type) => {
 
+    var r = [], 
+        NaNBol = true
 
+    for(var i=0; i < arr.length; i++) {
 
+        if( type != 1 ){
 
+            for(var j = i+1; j < arr.length; j++){ 
 
+                if(arr[i]==arr[j]){ 
 
+                    arr.splice(j,1); //console.log(arr[j]); 
+
+                    j--; 
+
+                } 
+
+            }
+
+            r = arr
+
+        }
+
+        if (arr[i] !== arr[i]) {
+
+            if (NaNBol && r.indexOf(arr[i]) === -1) {
+
+                r.push(arr[i])
+
+                NaNBol = false
+
+            }
+
+        }else{
+
+            if(r.indexOf(arr[i]) === -1) r.push(arr[i])
+
+        }
+
+    }
+
+    return r
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:48:11
+ * @Description: 数组 - 求两个集合的并集
+ * @example  Union([12,34,56], [65,12,34]) => [12, 34, 56, 65]
+*/
+export const Union = (a, b) => {
+
+    var newArr = a.concat(b);
+
+    return this.Unique(newArr);
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:49:37
+ * @Description: 数组 - 求两个集合的交集
+ * @example  Intersect([2,3,4,3,5], [1,5,4,3,2,67]) => [2, 3, 4, 5]
+*/
+export const Intersect = (a, b) => {
+
+    var a = this.Unique(a);
+
+    return $.fn.htools.Map(a, function(o) {
+
+        return b.indexOf(o) != -1 ? o : null
+
+    });
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:50:57
+ * @Description: 数组 - 删除其中一个元素
+ * @example  $.fn.htools.Remove([1,2,3,4,56,7], 1) => [2, 3, 4, 56, 7]
+*/
+export const Remove = (arr, ele) => {
+
+    var index = arr.indexOf(ele);
+
+    if(index > -1) {
+
+        arr.splice(index, 1);
+
+    }
+
+    return arr;
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:52:38
+ * @Description: 数组 - 最大值
+ * @param    {[Array]}         arr [description]
+*/
+export const Max = (arr) => {
+
+    return Math.max.apply(null, arr);
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:54:01
+ * @Description: 数组 - 最小值
+ * @param    {[Array]}         arr [description]
+*/
+export const Min = (arr) => {
+
+    return Math.min.apply(null, arr);
+
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:55:08
+ * @Description: 数组 - 数组求和
+ * @param    {[Array]}          arr [数字集合]
+*/
+export const Sum = (arr) => {
+
+    return arr.reduce( function(pre, cur){
+
+        return pre + cur
+
+    })
+}
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 16:56:06
+ * @Description: 数组 - 数组平均值
+ * @param    {[Array]}         arr [数字集合]
+*/
+export const Average = (arr) => {
+
+    return this.Sum(arr)/arr.length
+
+}
