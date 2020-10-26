@@ -1,6 +1,6 @@
-### 一. 网址参数
+## 一. 网址参数
 
-#### hgetParams
+### hgetParams
 
 获取浏览网址中指定查询参数的值
 
@@ -17,7 +17,7 @@
 | 不存在   |        | null   |      |
 | 存在     | string | 参数值 |      |
 
-#### hgetAllParams
+### hgetAllParams
 
 获取地址栏中所有查询参数的值
 
