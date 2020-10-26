@@ -1,10 +1,11 @@
 - [一. 网址参数](#一-网址参数)
   - [hgetParams](#hgetparams)
   - [hgetAllParams](#hgetallparams)
+  - [hdeleteParams](#hdeleteparams)
 
 
 
-### 一. 网址参数
+## 一. 网址参数
 
 ### hgetParams
 
