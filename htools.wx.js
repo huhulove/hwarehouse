@@ -479,8 +479,34 @@ export const hgetUserInfo = () => {
         })
     })
 }
-
-
+/*
+ * @Author: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-26 09:43:15
+ * @Description: 微信支付
+ * @param timeStamp : 时间戳，从 1970 年 1 月 1 日 00:00:00 至今的秒数，即当前的时间
+ * @param nonceStr : 随机字符串，长度为32个字符以下
+ * @param package : 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=***
+ * @param signType : 签名算法，应与后台下单时的值一致  MD5 / HMAC-SHA256 / RSA
+ * @param paySign : 签名 
+*/
+export const hwxPay = (timeStamp, nonceStr, package, signType="MD5", paySign)=>{
+    return new Promise( (resolve, reject)=>{
+        wx.requestPayment({
+            timeStamp: timeStamp,
+            nonceStr: nonceStr,
+            package: package,
+            signType: signType,
+            paySign: paySign,
+            success (res) {
+                resolve(res);
+            },
+            fail (res) {
+                reject(res);
+            }
+        })
+    } )
+}
 
 
 
