@@ -148,7 +148,7 @@ export const hbrowserType = () => {
 export const hnumberToUpper = (num) => {
     let AA = new Array("零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十");
 
-    let BB = new Array("", "十", "百", "仟", "萬", "億", "点", "");
+    let BB = new Array("", "十", "百", "千", "万", "亿", "点", "");
 
     let a = ("" + num).replace(/(^0*)/g, "").split(".");
 
@@ -362,6 +362,10 @@ export const hnumberToMoney = (num) => {
 
             if (i == 1) tmpnewchar = tmpnewchar + "分";
 
+            if (i == 2) tmpnewchar = tmpnewchar + "厘";
+
+            if (i == 3) tmpnewchar = tmpnewchar + "毫";
+
             newchar = newchar + tmpnewchar;
 
         }
@@ -400,7 +404,7 @@ export const hnumberToMoney = (num) => {
  * @Date: 2020-10-23 17:05:30
  * @Description: 阿拉伯数字 - 随机数范围
 */
-export const Random = (min, max) => {
+export const hnumberRandom = (min, max) => {
 
     if (arguments.length === 2) {
 
@@ -421,7 +425,7 @@ export const Random = (min, max) => {
  * @Description: 阿拉伯数字 - 解决javascript浮点数四则运算( + - * / )运算BUG
  * 备注：该方法只适应于 参数1 和 参数2小数点后 3位 之内(含3)的计算  不支持除法
 */
-export const FloatRun = (num1, num2, runType) => {
+export const hnumberCompute = (num1, num2, computeType = '+') => {
 
     var sq1, sq2, m;
 
@@ -447,7 +451,7 @@ export const FloatRun = (num1, num2, runType) => {
 
     m = Math.pow(10, Math.max(sq1, sq2));
 
-    switch( runType ){
+    switch( computeType ){
 
         case "+":
 
@@ -562,7 +566,7 @@ export const hstrType = (str, type) => {
  *@Date: 2020-10-22 14:01:51
  *@Description: 字符串 - 检测字符串密码强度
 */
-export const hpasswordLevel = (str) => {
+export const hstrLevel = (str) => {
     var Lv = 0;
 
     if (str.length < 6) {
@@ -604,9 +608,7 @@ export const hpasswordLevel = (str) => {
  * @Description: 字符串 - 去除空格
  * @param    {[Number]}         type [ 1-所有空格  2-前后空格  3-前空格 4-后空格 ]
 */
-export const Trim = (str, type) => {
-
-    type = type || 1;
+export const hstrTrim = (str, type = 1) => {
 
     switch (type) {
 
@@ -639,9 +641,7 @@ export const Trim = (str, type) => {
  * @Description: 字符串 - 大小写转换
  * @param    {[Number]}         type [ 1:首字母大写  2：首页母小写  3：大小写转换  4：全部大写  5：全部小写 ]
 */
-export const ChangeCase = (str, type) => {
-
-    type = type || 4;
+export const hstrSizeSwitch = (str, type = 4) => {
 
     switch (type) {
 
