@@ -698,7 +698,7 @@ export const hstrSizeSwitch = (str, type = 4) => {
  * @Date: 2020-10-23 17:02:19
  * @Description: 字符串 - 过滤html代码(把<>转换)
 */
-export const FilterTag = (str) => {
+export const hstrFilterTag = (str) => {
 
     str = str.replace(/&/ig, "&amp;");
 

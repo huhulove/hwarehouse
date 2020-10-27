@@ -1,3 +1,21 @@
+- [网址参数](#网址参数)
+  - [hgetParams](#hgetparams)
+  - [hgetAllParams](#hgetallparams)
+  - [hdeleteParams](#hdeleteparams)
+- [浏览器内核](#浏览器内核)
+  - [hbrowserType](#hbrowsertype)
+- [数字](#数字)
+  - [hnumberToUpper](#hnumbertoupper)
+  - [hnumberToMoney](#hnumbertomoney)
+  - [hnumberRandom](#hnumberrandom)
+  - [hnumberCompute](#hnumbercompute)
+- [字符串](#字符串)
+  - [hstrType](#hstrtype)
+  - [hstrLevel](#hstrlevel)
+  - [hstrTrim](#hstrtrim)
+  - [hstrSizeSwitch](#hstrsizeswitch)
+  - [hstrFilterTag](#hstrfiltertag)
+- [本地存储](#本地存储)
 
 
 ## 网址参数
