@@ -1,21 +1,3 @@
-- [网址参数](#网址参数)
-  - [hgetParams](#hgetparams)
-  - [hgetAllParams](#hgetallparams)
-  - [hdeleteParams](#hdeleteparams)
-- [浏览器内核](#浏览器内核)
-  - [hbrowserType](#hbrowsertype)
-- [数字](#数字)
-  - [hnumberToUpper](#hnumbertoupper)
-  - [hnumberToMoney](#hnumbertomoney)
-  - [hnumberRandom](#hnumberrandom)
-  - [hnumberCompute](#hnumbercompute)
-- [字符串](#字符串)
-  - [hstrType](#hstrtype)
-  - [hstrLevel](#hstrlevel)
-  - [hstrTrim](#hstrtrim)
-  - [hstrSizeSwitch](#hstrsizeswitch)
-  - [hstrFilterTag](#hstrfiltertag)
-- [本地存储](#本地存储)
 
 
 ## 网址参数
@@ -258,3 +240,84 @@ type值：
 返回值：过滤之后的字符串
 
 ## 本地存储
+
+### hstorageSet
+
+设置 localstorage
+
+参数：
+
+| 属性  | 类型                   | 默认值 | 必填 | 说明                           |
+| ----- | ---------------------- | ------ | ---- | ------------------------------ |
+| key   | string                 |        | 是   |                                |
+| value | number\|string\|object |        | 是   | value值不能为undefined或者null |
+
+返回值：无
+
+### hstorageGet
+
+读取 localstorage
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 |
+| ---- | ------ | ------ | ---- |
+| key  | string |        | 是   |
+
+返回值：如果JSON.parse() 方法格式化成功，则返回格式化后的数据，如果不成功则返回初始存储的字符串。
+
+### hstorageRemove
+
+移除指定字段 localstorage
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 |
+| ---- | ------ | ------ | ---- |
+| key  | string |        | 是   |
+
+返回值：无
+
+### hstorageClear
+
+清除 localstorage
+
+参数：无
+
+返回值：无
+
+## 时间
+
+### hmonthRange
+
+获取指定长度的月份集合
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明              |
+| ---- | ------ | ------ | ---- | ----------------- |
+| date | string |        | 是   | 格式为：xxxx-x-xx |
+| len  | number |        | 是   | 月份数量          |
+| dir  | number | 3      | 否   | 方向              |
+
+dir值：
+
+| 值   | 说明       |
+| ---- | ---------- |
+| 1    | 前几个月   |
+| 2    | 后几个月   |
+| 3    | 前后几个月 |
+
+返回值：指定月份数量的数组
+
+### hdateInMonth
+
+获取指定月份有多少天
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明           |
+| ---- | ------ | ------ | ---- | -------------- |
+| date | string |        | 是   | 格式为：xxxx-x |
+
+返回值：天数

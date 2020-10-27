@@ -1,3 +1,4 @@
+// ---------------------- 网址参数 -----------------------------
 /* 
  * @Author: huhulove
  * @Date: 2019-07-30 10:12:50
@@ -85,6 +86,11 @@ export const hdeleteParams = (name, url = window.location.href) => {
 
     }
 }
+
+
+// ---------------------- 浏览器内核 -----------------------------
+
+
 /*
  *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
@@ -139,6 +145,10 @@ export const hbrowserType = () => {
 
     if (isChrome) return "Chrome";
 }
+
+// ---------------------- 阿拉伯数字 -----------------------------
+
+
 /* 
  * @Author: huhulove
  * @Date: 2019-07-30 10:55:17
@@ -475,6 +485,7 @@ export const hnumberCompute = (num1, num2, computeType = '+') => {
 
 }
 
+// ---------------------- 字符串 -----------------------------
 
 /* 
  * @Author: huhulove
@@ -712,13 +723,15 @@ export const hstrFilterTag = (str) => {
 
 }
 
+// ---------------------- 本地存储 -----------------------------
+
 /* 
  * @Author: huhulove
  * @Date: 2019-07-30 11:03:54
  * @Email: 2373838484@qq.com
  * @Description: 本地存储 - 设置
 */
-export const hsetStorage = (key, value) => {
+export const hstorageSet = (key, value) => {
     if (value == undefined || value == null) {
         console.warn("value值不能为undefined或者null");
         return false;
@@ -743,7 +756,7 @@ export const hsetStorage = (key, value) => {
  * @Email: 2373838484@qq.com
  * @Description: 本地存储 - 读取
 */
-export const hgetStorage = (key) => {
+export const hstorageGet = (key) => {
     let _value = localStorage.getStorage(key);
     try {
         let _newValue = JSON.parse(_value);
@@ -758,7 +771,7 @@ export const hgetStorage = (key) => {
  * @Email: 2373838484@qq.com
  * @Description: 本地存储 - 移除指定字段
 */
-export const hremoveStorage = (key) => {
+export const hstorageRemove = (key) => {
     localStorage.removeStorage(key)
 }
 /* 
@@ -767,16 +780,18 @@ export const hremoveStorage = (key) => {
  * @Email: 2373838484@qq.com
  * @Description: 本地存储 - 移除所有字段
 */
-export const hclearStorage = () => {
+export const hstorageClear = () => {
     localStorage.clearStorage();
 }
-//////////////////////////////////// 时间 ///////////////////////////////////////////
+
+// ---------------------- 时间 -----------------------------
+
 /*
  * @Author: huhulove
  * @Date: 2019-09-09 11:20:45
  * @Email: 2373838484@qq.com
  * @Description: 时间 - 返回指定长度的月份集合
- * @param  {time} 时间
+ * @param  {date} 时间
  * @param  {len} 长度
  * @param  {direction} 方向：  1: 前几个月;  2: 后几个月;  3:前后几个月  默认 3
  * @return {Array} 数组
@@ -785,13 +800,14 @@ export const hclearStorage = () => {
  *
  * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
 */
-export const HgetMonths = (time, len, dir) => {
+export const hmonthRange = (date, len, dir = 3) => {
 
-    let mm = new Date(time).getMonth();
+    let mm = new Date(date).getMonth();
 
-    let yy = new Date(time).getFullYear();
+    let yy = new Date(date).getFullYear();
 
-    let direction = isNaN(dir) ? 3 : dir;
+    // let direction = isNaN(dir) ? 3 : dir;
+    let direction = dir;
 
     let index = mm;
 
@@ -928,16 +944,16 @@ export const HgetMonths = (time, len, dir) => {
  * @Email: 2373838484@qq.com
  * @Date: 2020-10-22 14:15:46
  * @Description: 时间 - 获取某月有多少天
- * @param    time 				[ "2018-2" ]
+ * @param    date 				"2018-2"
  * @return   Number
  * @explame  GetDatesOfMonth( "2018-2" )  => 28
  * 
  * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
  *  
  */
-export const hgetDatesOfMonth = (time) => {
+export const hdateInMonth = (date) => {
 
-    let date = new Date(time);
+    let date = new Date(date);
 
     let year = date.getFullYear();
 
@@ -965,6 +981,8 @@ export const hgetDatesOfMonth = (time) => {
     return days
 
 };
+
+
 /*
  * @ClassAuthor: huhulove
  * @Email: 2373838484@qq.com
