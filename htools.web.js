@@ -416,7 +416,7 @@ export const hnumberToMoney = (num) => {
 */
 export const hnumberRandom = (min, max) => {
 
-    if (arguments.length === 2) {
+    if (min && max) {
 
         return Math.floor(min + Math.random() * ( (max+1) - min ))
 
@@ -467,19 +467,13 @@ export const hnumberCompute = (num1, num2, computeType = '+') => {
 
             return (num1 * m + num2 * m) / m;
 
-            break;
-
         case "-":
 
-            return (num1 * m - num2 * m) / m;;
-
-            break;
+            return (num1 * m - num2 * m) / m;
 
         case "*":
 
-            return ( (num1 * m) * (num2*m) ) / m*m
-
-            break;
+            return ( (num1 * m) * (num2*m) ) / ( m*m );
 
     }
 
@@ -515,7 +509,7 @@ export const hstrType = (str, type) => {
 
         case 'postal':  //邮政编码
 
-            return /[1-9]\d{5}(?!\d)/.test(str);
+            return /[0-9]\d{5}(?!\d)/.test(str);
 
         case 'QQ':      //QQ号
 
@@ -953,11 +947,11 @@ export const hmonthRange = (date, len, dir = 3) => {
  */
 export const hdateInMonth = (date) => {
 
-    let date = new Date(date);
+    let _date = new Date(date);
 
-    let year = date.getFullYear();
+    let year = _date.getFullYear();
 
-    let mouth = date.getMonth() + 1;
+    let mouth = _date.getMonth() + 1;
 
     let days;
 
