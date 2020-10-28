@@ -29,8 +29,8 @@
   - [hdateLastInYear](#hdatelastinyear)
   - [hdateIndexInYear](#hdateindexinyear)
   - [hdateByDateIndex](#hdatebydateindex)
-  - [hweekIndexByDate](#hweekindexbydate)
   - [hdateSEByWeekIndex](#hdatesebyweekindex)
+  - [hweekIndexByDate](#hweekindexbydate)
   - [hdayByDate](#hdaybydate)
   - [htimeBySeconds](#htimebyseconds)
 - [数组](#数组)
@@ -43,6 +43,7 @@
   - [harrMin](#harrmin)
   - [harrSum](#harrsum)
   - [harrAverage](#harraverage)
+
 
 
 ## 网址参数
@@ -450,18 +451,6 @@ dir值：
 
 返回值：xxxx-x-xx
 
-### hweekIndexByDate
-
-获取某个日期在一年的第几周
-
-参数：
-
-| 属性 | 类型          | 默认值 | 必填 | 说明                                    |
-| ---- | ------------- | ------ | ---- | --------------------------------------- |
-| date | string/number |        | 是   | 1、日期格式：xxxx-x-xx; <br />2、毫秒数 |
-
-返回值：第几周
-
 ### hdateSEByWeekIndex
 
 根据一年当中第几周返回当周的开始日期和结束日期
@@ -479,6 +468,18 @@ dir值：
 | --------- | -------- |
 | startDate | 开始日期 |
 | endDate   | 结束日期 |
+
+### hweekIndexByDate
+
+获取某个日期在一年的第几周
+
+参数：
+
+| 属性 | 类型          | 默认值 | 必填 | 说明                                    |
+| ---- | ------------- | ------ | ---- | --------------------------------------- |
+| date | string/number |        | 是   | 1、日期格式：xxxx-x-xx; <br />2、毫秒数 |
+
+返回值：第几周
 
 ### hdayByDate
 
