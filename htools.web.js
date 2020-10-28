@@ -839,7 +839,7 @@ export const hmonthRange = (date, len, dir = 3) => {
 
         }
 
-        return hsort(_arrp, 1);
+        return harrSort(_arrp, 1);
 
     }
 
@@ -981,35 +981,6 @@ export const hdateInMonth = (date) => {
     return days
 
 };
-
-
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-22 14:22:08
- * @Description: 时间 - 一年当中某一天是星期几
-*/
-export const honeDay = (y, m, d) => {
-    var myDate = new Date();
-    myDate.setFullYear(y, m - 1, d);
-    var week = myDate.getDay()
-    switch (week) {
-        case 0:
-            return '星期日';
-        case 1:
-            return '星期一';
-        case 2:
-            return '星期二';
-        case 3:
-            return '星期三';
-        case 4:
-            return '星期四';
-        case 5:
-            return '星期五';
-        case 6:
-            return '星期六';
-    }
-}
 /*
  * @ClassAuthor: huhulove
  * @Email: 2373838484@qq.com
@@ -1023,13 +994,13 @@ export const honeDay = (y, m, d) => {
  * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
  * 
 */
-export const GetDates = (time, len, diretion) => {
+export const hdateRange = (date, len, diretion = 3) => {
 
-    var tt = new Date(time);
+    var tt = new Date(date);
 
     var getDay = function(day) {
 
-        var t = new Date(time)
+        var t = new Date(date)
 
         t.setDate(t.getDate() + day)
 
@@ -1082,14 +1053,224 @@ export const GetDates = (time, len, diretion) => {
 /*
  * @ClassAuthor: huhulove
  * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:30:29
+ * @Description: 时间 - 获取某年有多少天
+ * @param    time 					[ "2018" => ( String ) / 946684800000 => ( Number ) ]
+ * @return   Number
+ * @example  GetDatesOfYear( "2018" / 946684800000 ) => 365 / 366
+*/
+export const hdateInYear = (time) => {
+
+    var firstDayYear = this.hdateFirstInYear(time);
+
+    var lastDayYear = this.GetLastDateOfYear(time);
+
+    var numSecond = (new Date(lastDayYear).getTime() - new Date(firstDayYear).getTime())/1000;
+
+    return Math.ceil(numSecond/(24*3600));
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:38:54
+ * @Description: 时间 - 获取某年的第一天
+ * @param    time 				[ "2018" => ( String ) / 1517903434628 => ( Number ) ]
+ * @return   String
+ * @example  GetFirstDateOfYear( "2018" / 946684800000 ) => "2018-01-01 00:00:00" / "2000-01-01 00:00:00";
+ */
+export const hdateFirstInYear = (time) => {
+
+    var year = new Date(time).getFullYear();
+
+    return year + "-01-01 00:00:00";
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:41:17
+ * @Description: 时间 - 获取某年最后一天
+ * @param    time 				[ "2018" => ( String ) / 1517903434628 => ( Number ) ]
+ * @return   String
+ * @example  GetLastDateOfYear( "2018" / 946684800000 ) => "2018-12-31 23:59:59" / "2000-12-31 23:59:59";
+ */
+export const hdateLastInYear = (time) => {
+
+    var year = new Date(time).getFullYear();
+
+    var dateString = year + "-12-01 00:00:00";
+
+    var endDay = hdateInMonth(dateString);
+
+    return year + "-12-" + endDay + " 23:59:59";
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:36:58
+ * @Description: 时间 - 获取某个日期是当年中的第几天
+ * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
+ * @return   Number
+ * @example  hdateIndexInYear( "2018-2-10" / 1518192000000 )   => 41 / 41  
+ * 
+ * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
+*/
+export const hdateIndexInYear = (date) => {
+
+    var firstDayYear = hdateFirstInYear(date);
+
+    var numSecond = (new Date(date).getTime() - new Date(firstDayYear).getTime())/1000;
+    
+    return Math.ceil(numSecond/(24*3600)) + 1;
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:44:21
+ * @Description: 时间 - 根据一年当中第几天返回日期
+ * @param {*} arr 
+ * @param {*} type 
+ */
+export const hdateByDateIndex = (year, dateNum) => {
+
+    var firstDate_mitime = new Date(year+"-1-1").getTime();
+
+    var time = (dateNum+1)*24*60*60*1000;
+
+    var allTime = firstDate_mitime + time;
+
+    var myDate = new Date(allTime)
+
+    return myDate.getFullYear() + "-" + ( myDate.getMonth() + 1 ) + "-" + myDate.getDate();
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:51:40
+ * @Description: 时间 - 根据一年当中第几周返回当周的开始日期和结束日期
+*/
+export const hdateSEByWeekIndex = (year, weekIndex) => {
+		
+    // 获取当年1月1号是星期几
+    var startDateDay = new Date(year, 0, 1).getDay();
+    
+    // 如果year年1月1号刚好是星期天
+    if( startDateDay == 0 ){	
+
+        var allDate = (weekIndex-1) * 7 - 1;
+
+        return {
+
+            startDate : hdateByDateIndex( year, allDate ),
+
+            endDate : this.GetDates(hdateByDateIndex( year, allDate ) , 6 , 2)[5]
+
+        };
+    }
+    // 如果year年1月1号刚好不是星期天
+    if( startDateDay != 0 ){
+
+        if( weekIndex == 1 ){
+
+            return {
+
+                startDate : year + "-" + "1-1",
+
+                endDate : this.GetDates(year + "-" + "1-1", weekLastDay - startDateDay, 2)[weekLastDay - startDateDay-1]
+
+            };
+
+        }else{
+
+            var allDate = (weekIndex-1) * 7;
+
+            var startDate = this.GetDates(year + "-" + "1-1", startDateDay, 1)[0];
+            
+            return {
+
+                startDate : this.GetDates( startDate, allDate, 2 )[allDate-1],
+
+                endDate : this.GetDates(this.GetDates( startDate, allDate, 2 )[allDate-1] , 6 , 2)[5]
+                
+            };
+        }
+
+    }
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-23 15:42:47
+ * @Description: 时间 - 获取某个日期在这一年的第几周
+ * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
+ * @return   Number             
+ * @example  hweekIndexByDate( "2018-2-10" / 1518192000000 )   => 6 / 6 
+ * 
+ * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
+ * 
+ */
+export const hweekIndexByDate = (date) => {
+
+    var numdays = hdateIndexInYear(date);
+
+    var y = new Date(date).getFullYear();
+
+    var firstDateDay = new Date(y, 0, 1).getDay();
+    
+    if( firstDateDay != 1 ){
+
+        return Math.ceil( ( numdays + ( firstDateDay == 0 ? 7 : firstDateDay - 1 ) ) / 7 );
+
+    }else{
+
+        return Math.ceil(numdays / 7);
+
+    }	    
+
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
+ * @Date: 2020-10-22 14:22:08
+ * @Description: 时间 - 一年当中某一天是星期几
+*/
+export const hdayByDate = (y, m, d) => {
+    var myDate = new Date();
+    myDate.setFullYear(y, m - 1, d);
+    var week = myDate.getDay()
+    switch (week) {
+        case 0:
+            return '星期日';
+        case 1:
+            return '星期一';
+        case 2:
+            return '星期二';
+        case 3:
+            return '星期三';
+        case 4:
+            return '星期四';
+        case 5:
+            return '星期五';
+        case 6:
+            return '星期六';
+    }
+}
+/*
+ * @ClassAuthor: huhulove
+ * @Email: 2373838484@qq.com
  * @Date: 2020-10-23 15:18:52
  * @Description: 时间 - 秒数转换为时分秒字符串
  * @param  {s} 秒数
  * @return {String} 字符串 
- * @example formatHMS(3610) // -> 1h0m10s
- *          formatHMS(3610, "h")  // -> 1h
+ * @example htimeBySeconds(3610) // -> 1h0m10s
+ *          htimeBySeconds(3610, "h")  // -> 1h
 */
-export const FormatHMS = (s, type) => {
+export const htimeBySeconds = (s, type) => {
 
     var h = parseInt(s/3600);
 
@@ -1124,230 +1305,6 @@ export const FormatHMS = (s, type) => {
     }
 
 }
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:26:01
- * @Description: 时间 - 获取某月有多少天
- * @param    time 				[ "2018-2" ]
- * @return   Number
- * @explame getMonthOfDay( "2018-2" )  => 28
- * 
- * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
-*/
-export const GetDatesOfMonth = (time) => {
-
-    var date = new Date(time);
-
-    var year = date.getFullYear();
-
-    var mouth = date.getMonth() + 1;
-
-    var days;
-
-    //当月份为二月时，根据闰年还是非闰年判断天数
-    if (mouth == 2) {
-
-        days = ( year%4==0 && year%100!=0 ) || year%400==0 ? 29 : 28;
-
-    } else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
-
-        //月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
-        days = 31
-
-    } else {
-
-        //其他月份，天数为：30.
-        days = 30
-
-    }
-
-    return days
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:30:29
- * @Description: 时间 - 获取某年有多少天
- * @param    time 					[ "2018" => ( String ) / 946684800000 => ( Number ) ]
- * @return   Number
- * @example  GetDatesOfYear( "2018" / 946684800000 ) => 365 / 366
-*/
-export const GetDatesOfYear = (time) => {
-
-    var firstDayYear = this.GetFirstDateOfYear(time);
-
-    var lastDayYear = this.GetLastDateOfYear(time);
-
-    var numSecond = (new Date(lastDayYear).getTime() - new Date(firstDayYear).getTime())/1000;
-
-    return Math.ceil(numSecond/(24*3600));
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:38:54
- * @Description: 时间 - 获取某年的第一天
- * @param    time 				[ "2018" => ( String ) / 1517903434628 => ( Number ) ]
- * @return   String
- * @example  GetFirstDateOfYear( "2018" / 946684800000 ) => "2018-01-01 00:00:00" / "2000-01-01 00:00:00";
- */
-export const GetFirstDateOfYear = (time) => {
-
-    var year = new Date(time).getFullYear();
-
-    return year + "-01-01 00:00:00";
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:41:17
- * @Description: 时间 - 获取某年最后一天
- * @param    time 				[ "2018" => ( String ) / 1517903434628 => ( Number ) ]
- * @return   String
- * @example  GetLastDateOfYear( "2018" / 946684800000 ) => "2018-12-31 23:59:59" / "2000-12-31 23:59:59";
- */
-export const GetLastDateOfYear = (time) => {
-
-    var year = new Date(time).getFullYear();
-
-    var dateString = year + "-12-01 00:00:00";
-
-    var endDay = this.GetDatesOfMonth(dateString);
-
-    return year + "-12-" + endDay + " 23:59:59";
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:36:58
- * @Description: 时间 - 获取某个日期是当年中的第几天
- * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
- * @return   Number
- * @example  GetDateIndexOfYear( "2018-2-10" / 1518192000000 )   => 41 / 41  
- * 
- * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
-*/
-export const GetDateIndexOfYear = (time) => {
-
-    var firstDayYear = GetFirstDateOfYear(time);
-
-    var numSecond = (new Date(time).getTime() - new Date(firstDayYear).getTime())/1000;
-    
-    return Math.ceil(numSecond/(24*3600)) + 1;
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:42:47
- * @Description: 时间 - 获取某个日期在这一年的第几周
- * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
- * @return   Number             
- * @example  GetDayOfYearWeek( "2018-2-10" / 1518192000000 )   => 6 / 6 
- * 
- * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
- * 
- */
-export const GetWeekIndexOfYear = (time) => {
-
-    var numdays = this.GetDateIndexOfYear(time);
-
-    var y = new Date(time).getFullYear();
-
-    var firstDateDay = new Date(y, 0, 1).getDay();
-    
-    if( firstDateDay != 1 ){
-
-        return Math.ceil( ( numdays + ( firstDateDay == 0 ? 7 : firstDateDay - 1 ) ) / 7 );
-
-    }else{
-
-        return Math.ceil(numdays / 7);
-
-    }	    
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:44:21
- * @Description: 时间 - 根据一年当中第几天返回日期
- * @param {*} arr 
- * @param {*} type 
- */
-export const GetYMDOfDates = (year, dates) => {
-
-    var firstDate_mitime = new Date(year+"-1-1").getTime();
-
-    var time = (dates+1)*24*60*60*1000;
-
-    var allTime = firstDate_mitime + time;
-
-    var myDate = new Date(allTime)
-
-    return myDate.getFullYear() + "-" + ( myDate.getMonth() + 1 ) + "-" + myDate.getDate();
-
-}
-/*
- * @ClassAuthor: huhulove
- * @Email: 2373838484@qq.com
- * @Date: 2020-10-23 15:51:40
- * @Description: 时间 - 根据一年当中第几周返回当周的开始日期和结束日期
-*/
-export const GetStartDateAndEndDateOfWeek = (year, week) => {
-		
-    // 获取当年1月1号是星期几
-    var firstDateDay = new Date(year, 0, 1).getDay();
-    
-    // 如果year年1月1号刚好是星期天
-    if( firstDateDay == 0 ){	
-
-        var allDate = (week-1) * 7 - 1;
-
-        return {
-
-            firstDate : this.GetYMDOfDates( year, allDate ),
-
-            endDate : this.GetDates(this.GetYMDOfDates( year, allDate ) , 6 , 2)[5]
-
-        };
-    }
-    // 如果year年1月1号刚好不是星期天
-    if( firstDateDay != 0 ){
-
-        if( week == 1 ){
-
-            return {
-
-                firstDate : year + "-" + "1-1",
-
-                endDate : this.GetDates(year + "-" + "1-1", weekLastDay - firstDateDay, 2)[weekLastDay - firstDateDay-1]
-
-            };
-
-        }else{
-
-            var allDate = (week-1) * 7;
-
-            var firstDate = this.GetDates(year + "-" + "1-1", firstDateDay, 1)[0];
-            
-            return {
-
-                firstDate : this.GetDates( firstDate, allDate, 2 )[allDate-1],
-
-                endDate : this.GetDates(this.GetDates( firstDate, allDate, 2 )[allDate-1] , 6 , 2)[5]
-                
-            };
-        }
-
-    }
-
-}
 
 // ---------------------- 数组 -----------------------------
 
@@ -1360,7 +1317,7 @@ export const GetStartDateAndEndDateOfWeek = (year, week) => {
  * @param    type 			[ 1 => 从小到大   2 => 从大到小   3 => 随机 ]
  * @example  Sort( [1,3,2,4,2,5,6], 2 ) = > [6, 5, 4, 3, 2, 2, 1]
  */
-export const hsort = (arr, type) => {
+export const harrSort = (arr, type) => {
 
     return arr.sort(function (a, b) {
 
@@ -1394,10 +1351,10 @@ export const hsort = (arr, type) => {
  * @Description: 数组 - 数组去重
  * @param    {[Array]}          arr  []
  * @param    {[Number]}         type [ 1 => 严格去重 "2" / 2 数据类型不一样 不在去重范围内; !1 => 非严格去重 "2" / 2 数据类型不一样 在去重范围内; ]
- * @example  Unique([1,2,2,3,4,6,"2"], 1)  => [1, 2, 3, 4, 6, "2"]
- *           Unique([1,2,2,3,4,6,"2"])  => [1, 2, 3, 4, 6]
+ * @example  harrUnique([1,2,2,3,4,6,"2"], 1)  => [1, 2, 3, 4, 6, "2"]
+ *           harrUnique([1,2,2,3,4,6,"2"])  => [1, 2, 3, 4, 6]
 */
-export const Unique = (arr, type) => {
+export const harrUnique = (arr, type) => {
 
     var r = [], 
         NaNBol = true
@@ -1448,13 +1405,13 @@ export const Unique = (arr, type) => {
  * @Email: 2373838484@qq.com
  * @Date: 2020-10-23 16:48:11
  * @Description: 数组 - 求两个集合的并集
- * @example  Union([12,34,56], [65,12,34]) => [12, 34, 56, 65]
+ * @example  harrUnion([12,34,56], [65,12,34]) => [12, 34, 56, 65]
 */
-export const Union = (a, b) => {
+export const harrUnion = (a, b) => {
 
     var newArr = a.concat(b);
 
-    return this.Unique(newArr);
+    return harrUnique(newArr);
 
 }
 /*
@@ -1462,11 +1419,11 @@ export const Union = (a, b) => {
  * @Email: 2373838484@qq.com
  * @Date: 2020-10-23 16:49:37
  * @Description: 数组 - 求两个集合的交集
- * @example  Intersect([2,3,4,3,5], [1,5,4,3,2,67]) => [2, 3, 4, 5]
+ * @example  harrIntersect([2,3,4,3,5], [1,5,4,3,2,67]) => [2, 3, 4, 5]
 */
-export const Intersect = (a, b) => {
+export const harrIntersect = (a, b) => {
 
-    var a = this.Unique(a);
+    var a = harrUnique(a);
 
     return $.fn.htools.Map(a, function(o) {
 
@@ -1482,9 +1439,9 @@ export const Intersect = (a, b) => {
  * @Description: 数组 - 删除其中一个元素
  * @example  $.fn.htools.Remove([1,2,3,4,56,7], 1) => [2, 3, 4, 56, 7]
 */
-export const Remove = (arr, ele) => {
+export const harrRemove = (arr, item) => {
 
-    var index = arr.indexOf(ele);
+    var index = arr.indexOf(item);
 
     if(index > -1) {
 
@@ -1502,7 +1459,7 @@ export const Remove = (arr, ele) => {
  * @Description: 数组 - 最大值
  * @param    {[Array]}         arr [description]
 */
-export const Max = (arr) => {
+export const harrMax = (arr) => {
 
     return Math.max.apply(null, arr);
 
@@ -1514,7 +1471,7 @@ export const Max = (arr) => {
  * @Description: 数组 - 最小值
  * @param    {[Array]}         arr [description]
 */
-export const Min = (arr) => {
+export const harrMin = (arr) => {
 
     return Math.min.apply(null, arr);
 
@@ -1526,7 +1483,7 @@ export const Min = (arr) => {
  * @Description: 数组 - 数组求和
  * @param    {[Array]}          arr [数字集合]
 */
-export const Sum = (arr) => {
+export const harrSum = (arr) => {
 
     return arr.reduce( function(pre, cur){
 
@@ -1541,8 +1498,8 @@ export const Sum = (arr) => {
  * @Description: 数组 - 数组平均值
  * @param    {[Array]}         arr [数字集合]
 */
-export const Average = (arr) => {
+export const harrAverage = (arr) => {
 
-    return this.Sum(arr)/arr.length
+    return harrSum(arr)/arr.length
 
 }

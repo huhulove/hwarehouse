@@ -1,3 +1,48 @@
+- [网址参数](#网址参数)
+  - [hgetParams](#hgetparams)
+  - [hgetAllParams](#hgetallparams)
+  - [hdeleteParams](#hdeleteparams)
+- [浏览器内核](#浏览器内核)
+  - [hbrowserType](#hbrowsertype)
+- [数字](#数字)
+  - [hnumberToUpper](#hnumbertoupper)
+  - [hnumberToMoney](#hnumbertomoney)
+  - [hnumberRandom](#hnumberrandom)
+  - [hnumberCompute](#hnumbercompute)
+- [字符串](#字符串)
+  - [hstrType](#hstrtype)
+  - [hstrLevel](#hstrlevel)
+  - [hstrTrim](#hstrtrim)
+  - [hstrSizeSwitch](#hstrsizeswitch)
+  - [hstrFilterTag](#hstrfiltertag)
+- [本地存储](#本地存储)
+  - [hstorageSet](#hstorageset)
+  - [hstorageGet](#hstorageget)
+  - [hstorageRemove](#hstorageremove)
+  - [hstorageClear](#hstorageclear)
+- [时间](#时间)
+  - [hmonthRange](#hmonthrange)
+  - [hdateInMonth](#hdateinmonth)
+  - [hdateRange](#hdaterange)
+  - [hdateInYear](#hdateinyear)
+  - [hdateFirstInYear](#hdatefirstinyear)
+  - [hdateLastInYear](#hdatelastinyear)
+  - [hdateIndexInYear](#hdateindexinyear)
+  - [hdateByDateIndex](#hdatebydateindex)
+  - [hweekIndexByDate](#hweekindexbydate)
+  - [hdateSEByWeekIndex](#hdatesebyweekindex)
+  - [hdayByDate](#hdaybydate)
+  - [htimeBySeconds](#htimebyseconds)
+- [数组](#数组)
+  - [harrSort](#harrsort)
+  - [harrUnique](#harrunique)
+  - [harrUnion](#harrunion)
+  - [harrIntersect](#harrintersect)
+  - [harrRemove](#harrremove)
+  - [harrMax](#harrmax)
+  - [harrMin](#harrmin)
+  - [harrSum](#harrsum)
+  - [harrAverage](#harraverage)
 
 
 ## 网址参数
@@ -294,11 +339,11 @@ type值：
 
 参数：
 
-| 属性 | 类型   | 默认值 | 必填 | 说明              |
-| ---- | ------ | ------ | ---- | ----------------- |
-| date | string |        | 是   | 格式为：xxxx-x-xx |
-| len  | number |        | 是   | 月份数量          |
-| dir  | number | 3      | 否   | 方向              |
+| 属性 | 类型   | 默认值 | 必填 | 说明           |
+| ---- | ------ | ------ | ---- | -------------- |
+| date | string |        | 是   | 格式为：xxxx-x |
+| len  | number |        | 是   | 月数量         |
+| dir  | number | 3      | 否   | 方向           |
 
 dir值：
 
@@ -308,7 +353,7 @@ dir值：
 | 2    | 后几个月   |
 | 3    | 前后几个月 |
 
-返回值：指定月份数量的数组
+返回值：指定月份长度的数组
 
 ### hdateInMonth
 
@@ -321,3 +366,281 @@ dir值：
 | date | string |        | 是   | 格式为：xxxx-x |
 
 返回值：天数
+
+### hdateRange
+
+获取指定长度的天数集合
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明              |
+| ---- | ------ | ------ | ---- | ----------------- |
+| date | string |        | 是   | 格式为：xxxx-x-xx |
+| len  | number |        | 是   | 天数量            |
+| dir  | number | 3      | 否   | 方向              |
+
+dir值：
+
+| 值   | 说明     |
+| ---- | -------- |
+| 1    | 前几天   |
+| 2    | 后几天   |
+| 3    | 前后几天 |
+
+返回值：指定长度的天数集合
+
+### hdateInYear
+
+获取指定年份的天数
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明               |
+| ---- | ------ | ------ | ---- | ------------------ |
+| time | number |        | 是   | 具体年份或者毫秒数 |
+
+返回值：天数
+
+### hdateFirstInYear
+
+获取指定年份的第一天
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明               |
+| ---- | ------ | ------ | ---- | ------------------ |
+| time | number |        | 是   | 具体年份或者毫秒数 |
+
+返回值：格式为 xxxx-01-01 00:00:00
+
+### hdateLastInYear
+
+获取指定年份的最后一天
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明               |
+| ---- | ------ | ------ | ---- | ------------------ |
+| time | number |        | 是   | 具体年份或者毫秒数 |
+
+返回值：格式为 xxxx-12-xx 23:59:59
+
+### hdateIndexInYear
+
+获取指定日期在当年中是第几天
+
+参数：
+
+| 属性 | 类型          | 默认值 | 必填 | 说明                                    |
+| ---- | ------------- | ------ | ---- | --------------------------------------- |
+| date | string/number |        | 是   | 1、日期格式：xxxx-x-xx; <br />2、毫秒数 |
+
+返回值：第几天
+
+### hdateByDateIndex
+
+根据一年当中第几天返回日期
+
+参数：
+
+| 属性    | 类型   | 默认值 | 必填 |
+| ------- | ------ | ------ | ---- |
+| year    | number |        | 是   |
+| dateNum | number |        | 是   |
+
+返回值：xxxx-x-xx
+
+### hweekIndexByDate
+
+获取某个日期在一年的第几周
+
+参数：
+
+| 属性 | 类型          | 默认值 | 必填 | 说明                                    |
+| ---- | ------------- | ------ | ---- | --------------------------------------- |
+| date | string/number |        | 是   | 1、日期格式：xxxx-x-xx; <br />2、毫秒数 |
+
+返回值：第几周
+
+### hdateSEByWeekIndex
+
+根据一年当中第几周返回当周的开始日期和结束日期
+
+参数：
+
+| 属性      | 类型   | 默认值 | 必填 | 说明   |
+| --------- | ------ | ------ | ---- | ------ |
+| year      | number |        | 是   | 年份   |
+| weekIndex | number |        | 是   | 周索引 |
+
+返回值：json object
+
+| 字段      | 说明     |
+| --------- | -------- |
+| startDate | 开始日期 |
+| endDate   | 结束日期 |
+
+### hdayByDate
+
+一年当中某一天是星期几
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明 |
+| ---- | ------ | ------ | ---- | ---- |
+| y    | number |        | 是   | 年   |
+| m    | number |        | 是   | 月   |
+| d    | number |        | 是   | 日   |
+
+返回值：星期 x
+
+### htimeBySeconds
+
+秒数转换为时分秒字符串
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明     |
+| ---- | ------ | ------ | ---- | -------- |
+| s    | number |        | 是   | 秒数     |
+| type | string |        | 否   | 转换类型 |
+
+type值：
+
+| 值   | 说明 |
+| ---- | ---- |
+| h    | 小时 |
+| m    | 分钟 |
+| s    | 秒   |
+
+返回值：例如：1h2m3s
+
+## 数组
+
+### harrSort
+
+数组进行简单排序
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明     |
+| ---- | ------ | ------ | ---- | -------- |
+| arr  | object |        | 是   |          |
+| type | number |        | 是   | 排序方式 |
+
+type值：
+
+| 值   | 说明     |
+| ---- | -------- |
+| 1    | 从小到大 |
+| 2    | 从大到小 |
+| 3    | 随机     |
+
+返回值：数组
+
+### harrUnique
+
+数组去重
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明     |
+| ---- | ------ | ------ | ---- | -------- |
+| arr  | object |        | 是   |          |
+| type | number |        | 是   | 去重类型 |
+
+type值：
+
+| 值   | 说明       |
+| ---- | ---------- |
+| 1    | 严格去重   |
+| !1   | 非严格去重 |
+
+返回值：数组
+
+### harrUnion
+
+两个数组的并集
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明  |
+| ---- | ------ | ------ | ---- | ----- |
+| a    | object |        | 是   | 数组A |
+| b    | object |        | 是   | 数组B |
+
+返回值：数组
+
+### harrIntersect
+
+两个数组的交集
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明  |
+| ---- | ------ | ------ | ---- | ----- |
+| a    | object |        | 是   | 数组A |
+| b    | object |        | 是   | 数组B |
+
+返回值：数组
+
+### harrRemove
+
+删除数组中的某个元素
+
+参数：
+
+| 属性 | 类型          | 默认值 | 必填 | 说明 |
+| ---- | ------------- | ------ | ---- | ---- |
+| arr  | object        |        | 是   | 数组 |
+| item | number/string |        | 是   |      |
+
+返回值：数组
+
+### harrMax
+
+数组中最大值
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明 |
+| ---- | ------ | ------ | ---- | ---- |
+| arr  | object |        | 是   | 数组 |
+
+返回值：最大值
+
+### harrMin
+
+数组中最小值
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明 |
+| ---- | ------ | ------ | ---- | ---- |
+| arr  | object |        | 是   | 数组 |
+
+返回值：最小值
+
+### harrSum
+
+数组中各项累加和
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明 |
+| ---- | ------ | ------ | ---- | ---- |
+| arr  | object |        | 是   | 数组 |
+
+返回值：和
+
+### harrAverage
+
+数组平均值
+
+参数：
+
+| 属性 | 类型   | 默认值 | 必填 | 说明 |
+| ---- | ------ | ------ | ---- | ---- |
+| arr  | object |        | 是   | 数组 |
+
+返回值：平均值
