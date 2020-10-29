@@ -472,7 +472,6 @@ export const hnumberCompute = (num1, num2, computeType = '+') => {
             return (num1 * m - num2 * m) / m;
 
         case "*":
-
             return ( (num1 * m) * (num2*m) ) / ( m*m );
 
     }
@@ -513,7 +512,7 @@ export const hstrType = (str, type) => {
 
         case 'QQ':      //QQ号
 
-            return /^[1-9][0-9]{4,9}$/.test(str);
+            return /^[1-9][0-9]{4,10}$/.test(str);
 
         case 'email':   //邮箱
 
@@ -742,7 +741,8 @@ export const hstorageSet = (key, value) => {
             _value = JSON.stringify(value);
             break;
     }
-    localStorage.setStorage(key, _value)
+    // localStorage.setStorage(key, _value)
+    localStorage.setItem(key, _value);
 }
 /* 
  * @Author: huhulove
@@ -751,7 +751,8 @@ export const hstorageSet = (key, value) => {
  * @Description: 本地存储 - 读取
 */
 export const hstorageGet = (key) => {
-    let _value = localStorage.getStorage(key);
+    // let _value = localStorage.getStorage(key);
+    let _value = localStorage.getItem(key);
     try {
         let _newValue = JSON.parse(_value);
         return _newValue;
@@ -766,7 +767,8 @@ export const hstorageGet = (key) => {
  * @Description: 本地存储 - 移除指定字段
 */
 export const hstorageRemove = (key) => {
-    localStorage.removeStorage(key)
+    // localStorage.removeStorage(key)
+    localStorage.removeItem(key)
 }
 /* 
  * @Author: huhulove
@@ -775,7 +777,8 @@ export const hstorageRemove = (key) => {
  * @Description: 本地存储 - 移除所有字段
 */
 export const hstorageClear = () => {
-    localStorage.clearStorage();
+    // localStorage.clearStorage();
+    localStorage.clear();
 }
 
 // ---------------------- 时间 -----------------------------
@@ -885,8 +888,6 @@ export const hmonthRange = (date, len, dir = 3) => {
 
         }
 
-        console.log(nmonth);
-
         return nyear + "-" + (nmonth + 1);
 
     }
@@ -913,23 +914,17 @@ export const hmonthRange = (date, len, dir = 3) => {
 
             return ReturnMonth(monthArr);
 
-            break;
-
         case 2:
 
             monthArr = FormatNext();
 
             return ReturnMonth(monthArr);
 
-            break;
-
         case 3:
 
             monthArr = FormatCurr();
 
             return ReturnMonth(monthArr);
-
-            break;
 
     }
 };
@@ -1055,9 +1050,9 @@ export const hdateRange = (date, len, diretion = 3) => {
 */
 export const hdateInYear = (time) => {
 
-    var firstDayYear = this.hdateFirstInYear(time);
+    var firstDayYear = hdateFirstInYear(time);
 
-    var lastDayYear = this.GetLastDateOfYear(time);
+    var lastDayYear = hdateLastInYear(time);
 
     var numSecond = (new Date(lastDayYear).getTime() - new Date(firstDayYear).getTime())/1000;
 
@@ -1113,11 +1108,11 @@ export const hdateLastInYear = (time) => {
 */
 export const hdateIndexInYear = (date) => {
 
-    var firstDayYear = hdateFirstInYear(date);
+    var firstDateYear = hdateFirstInYear(date);
 
-    var numSecond = (new Date(date).getTime() - new Date(firstDayYear).getTime())/1000;
+    var numSecond = (new Date(date).getTime() - new Date(firstDateYear).getTime())/1000;
     
-    return Math.ceil(numSecond/(24*3600)) + 1;
+    return Math.floor(numSecond/(24*3600)) + 1;
 
 }
 /*
@@ -1132,7 +1127,7 @@ export const hdateByDateIndex = (year, dateNum) => {
 
     var firstDate_mitime = new Date(year+"-1-1").getTime();
 
-    var time = (dateNum+1)*24*60*60*1000;
+    var time = (dateNum - 1)*24*60*60*1000;
 
     var allTime = firstDate_mitime + time;
 
@@ -1161,7 +1156,7 @@ export const hdateSEByWeekIndex = (year, weekIndex) => {
 
             startDate : hdateByDateIndex( year, allDate ),
 
-            endDate : this.GetDates(hdateByDateIndex( year, allDate ) , 6 , 2)[5]
+            endDate : hdateRange(hdateByDateIndex( year, allDate ) , 6 , 2)[5]
 
         };
     }
@@ -1170,11 +1165,13 @@ export const hdateSEByWeekIndex = (year, weekIndex) => {
 
         if( weekIndex == 1 ){
 
+            var weekLastDay = 6;
+
             return {
 
                 startDate : year + "-" + "1-1",
 
-                endDate : this.GetDates(year + "-" + "1-1", weekLastDay - startDateDay, 2)[weekLastDay - startDateDay-1]
+                endDate : hdateRange(year + "-" + "1-1", weekLastDay - startDateDay, 2)[weekLastDay - startDateDay-1]
 
             };
 
@@ -1182,13 +1179,13 @@ export const hdateSEByWeekIndex = (year, weekIndex) => {
 
             var allDate = (weekIndex-1) * 7;
 
-            var startDate = this.GetDates(year + "-" + "1-1", startDateDay, 1)[0];
+            var startDate = hdateRange(year + "-" + "1-1", startDateDay, 1)[0];
             
             return {
 
-                startDate : this.GetDates( startDate, allDate, 2 )[allDate-1],
+                startDate : hdateRange( startDate, allDate, 2 )[allDate-1],
 
-                endDate : this.GetDates(this.GetDates( startDate, allDate, 2 )[allDate-1] , 6 , 2)[5]
+                endDate : hdateRange(hdateRange( startDate, allDate, 2 )[allDate-1] , 6 , 2)[5]
                 
             };
         }
