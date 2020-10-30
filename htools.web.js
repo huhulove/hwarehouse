@@ -1198,30 +1198,49 @@ export const hdateSEByWeekIndex = (year, weekIndex) => {
  * @Email: 2373838484@qq.com
  * @Date: 2020-10-23 15:42:47
  * @Description: 时间 - 获取某个日期在这一年的第几周
- * @param    time 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
+ * @param    date 				[ "2018" => ( String ) / 1518192000000 => ( Number ) ]
+ * @param    type               0 -> 星期天     1  -> 星期一
  * @return   Number             
  * @example  hweekIndexByDate( "2018-2-10" / 1518192000000 )   => 6 / 6 
  * 
  * 备注 ：对应的月份数字前不能加上0  即： 02 = 2
  * 
  */
-export const hweekIndexByDate = (date) => {
+export const hweekIndexByDate = (date, type = 0) => {
 
     var numdays = hdateIndexInYear(date);
-
+    
     var y = new Date(date).getFullYear();
 
     var firstDateDay = new Date(y, 0, 1).getDay();
     
-    if( firstDateDay != 1 ){
+    if( type == 0 ){
+        
+        if( firstDateDay != 0 ){
 
-        return Math.ceil( ( numdays + ( firstDateDay == 0 ? 7 : firstDateDay - 1 ) ) / 7 );
+            return Math.ceil( ( numdays + 6 - firstDateDay ) / 7 );
 
-    }else{
+        }else{
 
-        return Math.ceil(numdays / 7);
+            return Math.ceil(numdays / 7);
 
-    }	    
+        }
+
+    }
+
+    if( type == 1 ){
+        
+        if( firstDateDay != 1 ){
+    
+            return Math.ceil( ( numdays + ( firstDateDay == 0 ? 7 : firstDateDay - 1 ) ) / 7 );
+    
+        }else{
+    
+            return Math.ceil(numdays / 7);
+    
+        }
+
+    }
 
 }
 /*
@@ -1275,19 +1294,13 @@ export const htimeBySeconds = (s, type) => {
 
             return h + "h";
 
-            break;
-
         case "m":
 
             return m + "m";
 
-            break;
-
         case "s":
 
             return s + "s";
-
-            break;
 
         default :
 
@@ -1416,11 +1429,19 @@ export const harrIntersect = (a, b) => {
 
     var a = harrUnique(a);
 
-    return $.fn.htools.Map(a, function(o) {
+    let _r = [];
 
-        return b.indexOf(o) != -1 ? o : null
+    a.map(function(o) {
+
+        if( b.indexOf(o) != -1 ){
+
+            _r.push(o)
+
+        }
 
     });
+
+    return _r
 
 }
 /*
