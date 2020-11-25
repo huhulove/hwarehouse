@@ -55,6 +55,10 @@ module.exports = {
 				}
 			}
 		],
+		// 使用带文字的计算属性
+		'no-useless-computed-key': 'off',
+		//
+		'no-async-promise-executor': 'off',
 		'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }] // 允许在表达式中使用三元运算符，类似于短路评估
 	}
 };
