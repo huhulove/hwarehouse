@@ -1,27 +1,23 @@
-axios.defaults.timeout = 5000;
-axios.defaults.baseURL = '';
+import { Message } from 'element-ui';
+import axios from 'axios';
+const request = axios.create();
 
 /*
  *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 17:39:31
  *@Description: axios - 请求拦截器
-*/
-axios.interceptors.request.use(
-    config => {
-        // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
-        config.data = JSON.stringify(config.data);
-        config.headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-        // if(token){
-        //   config.params = {'token':token}
-        // }
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
+ */
+request.interceptors.request.use(
+	config => {
+		config.headers = {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		};
+		return config;
+	},
+	error => {
+		return Promise.reject(error);
+	}
 );
 
 /*
@@ -29,40 +25,58 @@ axios.interceptors.request.use(
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 17:40:54
  *@Description: axios - 响应拦截器
-*/
-axios.interceptors.response.use(
-    response => {
-        if (response.data.errCode == 2) {
-            router.push({
-                path: "/login",
-                querry: { redirect: router.currentRoute.fullPath }//从哪个页面跳转
-            })
-        }
-        return response;
-    },
-    error => {
-        return Promise.reject(error)
-    }
-)
+ */
+request.interceptors.response.use(
+	response => {
+		const { code } = response.data;
+		if (code === 401) {
+			// 未授权
+			router.push({
+				path: '/login',
+				querry: { redirect: router.currentRoute.fullPath } // 从哪个页面跳转
+			});
+			hremoveStorage('token');
+			return Promise.reject();
+		}
+		if (code === 500) {
+			const { msg } = response.data;
+			Message.error(msg);
+			return Promise.reject();
+		}
+		if (code === 1000) {
+			Message.error('请检查网络连接');
+			return Promise.reject();
+		}
+		const { msg } = response.data;
+		Message.closeAll();
+		Message.success(msg);
+		return response.data.result;
+	},
+	error => {
+		Message.error('接口请求报错');
+		return Promise.reject(error);
+	}
+);
 
 /*
  *@ClassAuthor: huhulove
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 17:41:14
  *@Description: axios - get 方法
-*/
-export function hrequestGet(url, params = {}) {
-    return new Promise((resolve, reject) => {
-        axios.get(url, {
-            params: params
-        })
-            .then(response => {
-                resolve(response.data);
-            })
-            .catch(err => {
-                reject(err)
-            })
-    })
+ */
+export function hgetRequest(url, params = {}) {
+	return new Promise((resolve, reject) => {
+		request
+			.get(url, {
+				params: params
+			})
+			.then(response => {
+				resolve(response.data);
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
 }
 
 /*
@@ -70,16 +84,18 @@ export function hrequestGet(url, params = {}) {
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 17:45:53
  *@Description: axios - post 方法
-*/
-export function hrequestPost(url, data = {}) {
-    return new Promise((resolve, reject) => {
-        axios.post(url, data)
-            .then(response => {
-                resolve(response.data);
-            }, err => {
-                reject(err)
-            })
-    })
+ */
+export function hpostRequest(url, data = {}) {
+	return new Promise((resolve, reject) => {
+		request.post(url, data).then(
+			response => {
+				resolve(response.data);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
 }
 
 /*
@@ -87,16 +103,18 @@ export function hrequestPost(url, data = {}) {
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 17:46:20
  *@Description: axios - patch 方法
-*/
-export function hrequestPatch(url, data = {}) {
-    return new Promise((resolve, reject) => {
-        axios.patch(url, data)
-            .then(response => {
-                resolve(response.data);
-            }, err => {
-                reject(err)
-            })
-    })
+ */
+export function hpatchRequest(url, data = {}) {
+	return new Promise((resolve, reject) => {
+		request.patch(url, data).then(
+			response => {
+				resolve(response.data);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
 }
 
 /*
@@ -104,14 +122,16 @@ export function hrequestPatch(url, data = {}) {
  *@Email: 2373838484@qq.com
  *@Date: 2020-10-22 17:46:38
  *@Description: axios - put 方法
-*/
-export function hrequestPut(url, data = {}) {
-    return new Promise((resolve, reject) => {
-        axios.put(url, data)
-            .then(response => {
-                resolve(response.data);
-            }, err => {
-                reject(err)
-            })
-    })
+ */
+export function hputRequest(url, data = {}) {
+	return new Promise((resolve, reject) => {
+		request.put(url, data).then(
+			response => {
+				resolve(response.data);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
 }
